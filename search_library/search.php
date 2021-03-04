@@ -75,18 +75,29 @@ class searching
         $input_new= preg_replace('/\b[\d]+\b/', '', $input_new); 
         $input_new = preg_replace("/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/",'',$input_new);  
         $pattern_string = "/\b[a-zA-Z_]+\b|\b\w*\d\w*\b/";
+     if(empty($email))
+		 {
         if(preg_match_all($pattern_string, $input_new, $output))
-        {   
+        {  
             $name_ex_comp=$output[0];
             for ($i=0; $i < sizeof($name_ex_comp); $i++) 
             {   
                 array_push($expert_and_company, $name_ex_comp[$i]); 
             }
-             
+            
         }
-        $data['string']=$expert_and_company; 
-        array_push($data['string'], $email); 
-        $data['email']=$email;    
+		$data['string']=$expert_and_company;
+		 }
+		 else{
+			$query_data[0]['type'] = 'email';
+			$query_data[0]['search_col_name']='email';
+			  $name_ex_comp=$output[0];
+            for ($i=0; $i < sizeof($name_ex_comp); $i++) 
+            {   
+                array_push($expert_and_company, $name_ex_comp[$i]); 
+            }
+			$data['email']=$expert_and_company;
+		 }    
         if($data['string'][0]='' AND $data['email']='')
         {
             echo "string";
